@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/01 22:30:41 by agaladi          ###   ########.fr       */
+/*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
+/*   Updated: 2023/12/01 17:30:14 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <fcntl.h>
 #include <stdio.h>
 
-int has_newline(char *str)
+int main()
 {
-	
-}
-
-char *get_next_line(int fd)
-{
-	static my_list *list_buff;
-	size_t buff_size = 10;
-	int chars_read;
-	if (fd < 0 || buff_size >= 0 || read(fd, list_buff->str, buff_size) < 0)
-		return (NULL);
-	while(list_buff->str )
-	return ();
+	int fd = open("txt", O_RDWR);
+	char *output = get_next_line(fd);
 }
