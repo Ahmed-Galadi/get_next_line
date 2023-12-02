@@ -6,11 +6,26 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:42:39 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/01 21:59:40 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/02 10:51:47 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int	ft_lstsize(my_list *lst)
+{
+	int		count;
+	my_list	*current;
+
+	count = 0;
+	current = lst;
+	while (current != NULL)
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
+}
 
 my_list	*ft_lstlast(my_list *lst)
 {
