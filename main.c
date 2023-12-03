@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/02 10:52:39 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/03 23:14:16 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,8 @@
 int main()
 {
 	int fd = open("txt", O_RDWR);
-	get_next_line(fd);
+	char *str = get_next_line(fd);
+
+	printf("%s", str);
+	return (0);
 }
