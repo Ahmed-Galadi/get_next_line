@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 12:38:17 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:25:41 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,18 +95,20 @@ char *shyata_to_static(char *content)
 {
 	char *output;
 	int i;
-
+	int j;
 	i = 0;
-	while (content[i] && content[i] != '\n')
+	j = 0;
+	while (content[i] != '\n')
 		i++;
 	if (i == 0)
 		return (NULL);
-	i = i + 1;
+	i += 1;
 	output = (char *)malloc(ft_strlen(content + i) + 1);
 	while (content[i])
 	{
-		output[i] = content[i];
+		output[j] = content[i];
 		i++;
+		j++;
 	}
 	output[i] = '\0';
 	return (output);
@@ -120,13 +122,15 @@ char *get_next_line(int fd)
 	buff_size = 10;
 	char content[buff_size + 1];
 	int read_until;
-	
-	
+
 	read_until = 0;
 	if (fd < 0 || buff_size <= 0)
 		return (NULL);
 	if (shyata)
-		ft_strjoin(holder, shyata);
+	{
+		holder = ft_strjoin(holder, shyata);
+		free(shyata);	
+	}
 	while(!has_newline(content))
 	{
 		read_until = read(fd, content, buff_size);
@@ -134,5 +138,8 @@ char *get_next_line(int fd)
 		holder = ft_strjoin(holder, content);
 	}
 	shyata = shyata_to_static(holder);
+	printf("%s", shyata);
+	free(holder);
 	return (till_nl(holder));
 }
+
