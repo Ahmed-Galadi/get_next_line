@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 17:59:41 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/04 18:02:11 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 
 
-int ft_strlen(char *str)
+static int ft_strlen(char *str)
 {
 	int		i;
 
@@ -25,7 +25,7 @@ int ft_strlen(char *str)
 	return (i);
 }
 
-char *ft_strjoin(char *s1, char *s2)
+static char *ft_strjoin(char *s1, char *s2)
 {
 	static char *shyata;
 	char		*joined;
