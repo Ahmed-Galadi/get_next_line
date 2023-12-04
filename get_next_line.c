@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 00:28:19 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/04 12:38:17 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ char *ft_strjoin(char *s1, char *s2)
 	int			j;
 
 	joined = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!joined)
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (s1 && s1[i])
@@ -64,12 +66,55 @@ char *ft_strjoin(char *s1, char *s2)
 	return (joined);
 }
 
-char *till_nl(char *output, char *shyata)
+char *till_nl(char *content)
 {
+	char *output;
+	int i;
+
+	i = 0;
+	if (!content)
+		return (NULL);
+	output = (char *)malloc(ft_strlen(content) + 1);
+	if (!output)
+		return (NULL);
+	while (content[i])
+	{
+		if (content[i] == '\n')
+		{
+			output[i] = content[i];
+			break;
+		}
+		output[i] = content[i];
+		i++;
+	}
+	output[i + 1] = '\0';
+	return (output);
+}
+
+char *shyata_to_static(char *content)
+{
+	char *output;
+	int i;
+
+	i = 0;
+	while (content[i] && content[i] != '\n')
+		i++;
+	if (i == 0)
+		return (NULL);
+	i = i + 1;
+	output = (char *)malloc(ft_strlen(content + i) + 1);
+	while (content[i])
+	{
+		output[i] = content[i];
+		i++;
+	}
+	output[i] = '\0';
+	return (output);
 }
 
 char *get_next_line(int fd)
 {
+	static char *shyata = NULL;
 	char *holder = NULL;
 	int buff_size;
 	buff_size = 10;
@@ -80,12 +125,14 @@ char *get_next_line(int fd)
 	read_until = 0;
 	if (fd < 0 || buff_size <= 0)
 		return (NULL);
+	if (shyata)
+		ft_strjoin(holder, shyata);
 	while(!has_newline(content))
 	{
 		read_until = read(fd, content, buff_size);
 		content[read_until] = '\0';
 		holder = ft_strjoin(holder, content);
 	}
-	
-	return (holder);
+	shyata = shyata_to_static(holder);
+	return (till_nl(holder));
 }

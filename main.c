@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/03 23:14:16 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/04 12:40:07 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int main()
 {
 	int fd = open("txt", O_RDWR);
 	char *str = get_next_line(fd);
-
-	printf("%s", str);
+	char *str1 = get_next_line(fd);
+	char *str2 = get_next_line(fd);
+	
+	// printf("%s%s%s", str, str1, str2);
 	return (0);
 }
