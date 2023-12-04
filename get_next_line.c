@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 17:41:32 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/04 17:59:41 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,6 @@ char *ft_strjoin(char *s1, char *s2)
 	}
 	joined[i] = '\0';
 	return (joined);
-}
-
-char *shyata_to_static(char *content)
-{
-	char *output;
-	int i;
-	int j;
-	i = 0;
-	j = 0;
-	while (content[i] != '\n')
-		i++;
-	if (i == 0)
-		return (NULL);
-	i += 1;
-	output = (char *)malloc(ft_strlen(content + i) + 1);
-	while (content[i])
-	{
-		output[j] = content[i];
-		i++;
-		j++;
-	}
-	output[i] = '\0';
-	return (output);
 }
 
 char *get_next_line(int fd)
