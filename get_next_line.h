@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:45:30 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/01 22:55:48 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:25:12 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 # include <unistd.h>
 # include <stdlib.h>
 
-typedef struct s_list
-{
-	char	*str;
-	struct	s_list *next;
-} my_list;
+#ifndef BUFFER_SIZE
+#define BUFFER_SIZE 10
+#endif
 char	*get_next_line(int fd);
-my_list	*ft_lstnew(void *content);
-void	ft_lstadd_back(my_list **lst, my_list *new);
-my_list	*ft_lstlast(my_list *lst);
+int		ft_strlen(char *str);
+int		has_newline(char *str);
+char	*till_nl(char *content);
+char	*shyata_to_static(char *content);
 #endif
