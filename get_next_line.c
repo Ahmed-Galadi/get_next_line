@@ -6,28 +6,14 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 18:02:11 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/05 14:21:21 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-
-
-
-static int ft_strlen(char *str)
-{
-	int		i;
-
-	i = 0;
-	while(str && str[i])
-		i++;
-	return (i);
-}
 
 static char *ft_strjoin(char *s1, char *s2)
 {
-	static char *shyata;
 	char		*joined;
 	int			i;
 	int			j;
@@ -56,22 +42,20 @@ char *get_next_line(int fd)
 {
 	static char *shyata = NULL;
 	char *holder = NULL;
-	int buff_size;
-	buff_size = 10;
-	char content[buff_size + 1];
+	char content[BUFFER_SIZE + 1];
 	int read_until;
 
 	read_until = 0;
-	if (fd < 0 || buff_size <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (shyata)
 	{
 		holder = ft_strjoin(holder, shyata);
-		free(shyata);	
+		free(holder);
 	}
 	while(!has_newline(content))
 	{
-		read_until = read(fd, content, buff_size);
+		read_until = read(fd, content, BUFFER_SIZE);
 		content[read_until] = '\0';
 		holder = ft_strjoin(holder, content);
 	}

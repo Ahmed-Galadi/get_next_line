@@ -6,11 +6,21 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:42:39 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 17:59:45 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/04 18:29:44 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+int ft_strlen(char *str)
+{
+	int		i;
+
+	i = 0;
+	while(str && str[i])
+		i++;
+	return (i);
+}
 
 int has_newline(char *str)
 {
