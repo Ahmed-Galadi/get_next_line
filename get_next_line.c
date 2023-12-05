@@ -1,8 +1,17 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
+/*   Updated: 2023/12/05 18:50:26 by agaladi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
-
 
 int has_newline(char *str)
 {
@@ -22,6 +31,17 @@ int has_newline(char *str)
 
 int ft_strlen(char *str)
 {
+	int		i;
+
+	i = 0;
+	while(str && str[i])
+		i++;
+	return (i);
+}
+
+char *ft_strjoin(char *s1, char *s2)
+{
+	static char *shyata;
 	char		*joined;
 	int			i;
 	int			j;
@@ -98,21 +118,27 @@ char *get_next_line(int fd)
 {
 	static char *shyata = NULL;
 	char *holder = NULL;
-	char content[BUFFER_SIZE + 1];
+	int buff_size;
+	buff_size = 10;
+	char content[buff_size + 1];
 	int read_until;
 
 	read_until = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || buff_size <= 0)
 		return (NULL);
 	if (shyata)
+	{
 		holder = ft_strjoin(holder, shyata);
+		free(shyata);	
+	}
 	while(!has_newline(content))
 	{
-		read_until = read(fd, content, BUFFER_SIZE);
+		read_until = read(fd, content, buff_size);
 		content[read_until] = '\0';
 		holder = ft_strjoin(holder, content);
 	}
 	shyata = shyata_to_static(holder);
+	free(holder);
 	return (till_nl(holder));
 }
 
