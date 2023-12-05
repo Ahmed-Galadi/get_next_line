@@ -6,11 +6,12 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:42:39 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/04 18:29:44 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/05 17:35:10 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 int ft_strlen(char *str)
 {
@@ -62,6 +63,7 @@ char *till_nl(char *content)
 	output[i + 1] = '\0';
 	return (output);
 }
+
 char *shyata_to_static(char *content)
 {
 	char *output;
@@ -75,6 +77,8 @@ char *shyata_to_static(char *content)
 		return (NULL);
 	i += 1;
 	output = (char *)malloc(ft_strlen(content + i) + 1);
+	if (!output)
+		return (NULL);
 	while (content[i])
 	{
 		output[j] = content[i];
