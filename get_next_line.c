@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/05 18:50:26 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/05 21:23:48 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int ft_strlen(char *str)
 
 char *ft_strjoin(char *s1, char *s2)
 {
-	static char *shyata;
 	char		*joined;
 	int			i;
 	int			j;
@@ -119,17 +118,17 @@ char *get_next_line(int fd)
 	static char *shyata = NULL;
 	char *holder = NULL;
 	int buff_size;
-	buff_size = 10;
+	buff_size = BUFFER_SIZE;
 	char content[buff_size + 1];
 	int read_until;
 
 	read_until = 0;
-	if (fd < 0 || buff_size <= 0)
+	if (fd < 0 || buff_size <= 0 || read(fd, content, 0) < 0)
 		return (NULL);
 	if (shyata)
 	{
 		holder = ft_strjoin(holder, shyata);
-		free(shyata);	
+		free(holder);	
 	}
 	while(!has_newline(content))
 	{
@@ -138,7 +137,7 @@ char *get_next_line(int fd)
 		holder = ft_strjoin(holder, content);
 	}
 	shyata = shyata_to_static(holder);
-	free(holder);
+	free(shyata);
 	return (till_nl(holder));
 }
 
