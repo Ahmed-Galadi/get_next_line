@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/06 23:50:26 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/07 11:04:19 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,11 @@ int main()
 	char *str3 = get_next_line(fd);
 	char *str4 = get_next_line(fd);
 	char *str5 = get_next_line(fd);
-	printf("%s%s%s%s%s%s", str, str1, str2, str3, str4, str5);
-	system(leeks a.out);
+	char *str6 = get_next_line(fd);
+	char *str7 = get_next_line(fd);
+	char *str8 = get_next_line(fd);
+	char *str9 = get_next_line(fd);
+	printf("%s%s%s%s%s%s%s%s%s%s", str, str1, str2, str3, str4, str5, str6, str7, str8, str9);
 	close(fd);
 	return (0);
 }
