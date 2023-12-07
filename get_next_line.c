@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/07 11:12:40 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/07 11:25:29 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ char *get_next_line(int fd)
 	{
 		read_until = read(fd, content, buff_size);
 		content[read_until] = '\0';
+		free(holder);
 		holder = ft_strjoin(holder, content);
 	}
 	if (shyata != NULL)
