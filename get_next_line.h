@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:45:30 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/07 11:09:25 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/07 14:03:36 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 # include <stdlib.h>
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 10
+#define BUFFER_SIZE 1
 #endif
 char	*get_next_line(int fd);
 int		ft_strlen(char *str);
 int		has_newline(char *str);
+char	*ft_strjoin(char *s1, char *s2);
 char	*till_nl(char *content);
 char	*shyata_to_static(char *content);
 #endif
