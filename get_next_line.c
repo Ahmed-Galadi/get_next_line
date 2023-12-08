@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/08 17:21:05 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/08 17:30:46 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ char *get_next_line(int fd)
 			return (buffer);
 		}
 		else if (check_nl == 0)
+		{
 			buffer = ft_strjoin(buffer, shyata);
+			shyata = shyata_to_static(shyata);
+		}
 	}
 	if(buffer)
 		return (buffer);
