@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/08 18:57:58 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/08 18:59:12 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,26 +161,19 @@ char *get_next_line(int fd)
 	while(read(fd, shyata, BUFFER_SIZE))
 	{
 		check_nl = has_newline(shyata, &len);
-		if(check_nl && !buffer)
+		if(check_nl)
 		{
 			buffer = ft_strjoin(buffer, till_nl(shyata));
 			shyata = shyata_to_static(shyata);
 			return (buffer);
 		}
-		else if (!check_nl && !buffer)
-		{
+		else if (check_nl == 0)
 			buffer = ft_strjoin(buffer, shyata);
-			shyata = shyata_to_static(shyata);		
-			
-		}
 	}
 	if(buffer)
-	{
 		return (buffer);
-	}
 	return (NULL);
 }
-
 //------------------------
 int main()
 {
