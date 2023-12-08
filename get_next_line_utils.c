@@ -6,13 +6,13 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:02:05 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/07 14:02:44 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/08 17:21:25 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int has_newline(char *str)
+int has_newline(char *str, int *len)
 {
 	int		i;
 
@@ -22,8 +22,12 @@ int has_newline(char *str)
 	while (str[i])
 	{
 		if(str[i] == '\n')
+		{
+			*len+=1;
 			return (1);
+		}
 		i++;
+		*len+=1;
 	}
 	return (0);
 }
@@ -44,9 +48,11 @@ char *ft_strjoin(char *s1, char *s2)
 	int			i;
 	int			j;
 
+	if (!s1 && !s2)
+		return (NULL);
 	joined = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
 	if (!joined)
-		return (NULL);
+		return (free(s1), free(s2), NULL);
 	i = 0;
 	j = 0;
 	while (s1 && s1[i])
@@ -96,14 +102,16 @@ char *shyata_to_static(char *content)
 	int j;
 	i = 0;
 	j = 0;
-	while (content[i] != '\n')
-		i++;
-	if (i == 0)
+	if (!content)
 		return (NULL);
+	while (content[i] != '\n' && content[i])
+		i++;
+	if (!content[i])
+		return (free(content),NULL);
 	i += 1;
 	output = (char *)malloc(ft_strlen(content + i) + 1);
 	if(!output)
-		return (NULL);
+		return (free(content),NULL);
 	while (content[i])
 	{
 		output[j] = content[i];
@@ -111,5 +119,5 @@ char *shyata_to_static(char *content)
 		j++;
 	}
 	output[i] = '\0';
-	return (output);
+	return (free(content),output);
 }

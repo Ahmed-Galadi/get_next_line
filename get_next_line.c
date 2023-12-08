@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/07 23:06:34 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/08 17:21:05 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,54 +15,50 @@
 
 char *get_next_line(int fd)
 {
-	static char *shyata = NULL;
-	char *holder = NULL;
-	int buff_size;
-	buff_size = BUFFER_SIZE;
-	char content[buff_size + 1];
-	int read_until;
-	read_until = 0;
-	if (fd < 0 || buff_size <= 0)
+	static char *shyata;
+	char		*buffer;
+	int			check_nl;
+	int			len = 0;
+
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
-	if (shyata)
-		holder = ft_strjoin(holder, shyata);
-	while(!has_newline(content))
+	if (read(fd, 0, 0) == -1 || fd < 0)
+		return (NULL);
+	buffer = NULL;
+	if(!shyata)
 	{
-		read_until = read(fd, content, buff_size);
-		content[read_until] = '\0';
-		free(holder);
-		holder = ft_strjoin(holder, content);
+		shyata = (char *)malloc(BUFFER_SIZE + 1);
+		if(!shyata)
+			return (NULL);
 	}
-	if (shyata != NULL)
-		free(shyata);
-	shyata = shyata_to_static(holder);
-	free(holder);
-	return (till_nl(holder));
+	else 
+	{
+		check_nl = has_newline(shyata, &len);
+		if(check_nl)
+		{
+			buffer = till_nl(shyata);
+			shyata = shyata_to_static(shyata);
+			return (buffer);
+		}
+		else if (check_nl == 0 && len != 0)
+		{
+			buffer = till_nl(shyata);	
+			shyata = shyata_to_static(shyata);
+		}
+	}
+	while(read(fd, shyata, BUFFER_SIZE))
+	{
+		check_nl = has_newline(shyata, &len);
+		if(check_nl)
+		{
+			buffer = ft_strjoin(buffer, till_nl(shyata));
+			shyata = shyata_to_static(shyata);
+			return (buffer);
+		}
+		else if (check_nl == 0)
+			buffer = ft_strjoin(buffer, shyata);
+	}
+	if(buffer)
+		return (buffer);
+	return (NULL);
 }
-
-// char *get_next_line(int fd)
-// {
-// 	static char	*shyata;
-// 	char		*output;
-// 	char		*read_buff;
-// 	int			read_until;
-
-// 	read_until = 0;
-// 	if(fd < 0 || BUFFER_SIZE <= 0 || read(fd ,read_buff, 0))
-// 		return (NULL);
-// 	while(!has_newline(read_buff))
-// 	{
-// 		read_until = read(fd, read_buff, BUFFER_SIZE);
-// 		if (output)
-// 			free(output);
-// 		output = ft_strjoin(output, read_buff);
-// 		printf("%s", output);
-// 	}
-// 	if (shyata)
-// 		free(shyata);
-// 	shyata = shyata_to_static(read_buff);
-// 	free(read_buff);
-// 	free(output);
-// 	output = till_nl(output);
-// 	return (output);
-// }
