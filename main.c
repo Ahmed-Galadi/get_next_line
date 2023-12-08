@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/08 17:43:02 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/08 18:46:23 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,22 +161,22 @@ char *get_next_line(int fd)
 	while(read(fd, shyata, BUFFER_SIZE))
 	{
 		check_nl = has_newline(shyata, &len);
-		if(check_nl)
+		if(check_nl && !buffer)
 		{
 			buffer = ft_strjoin(buffer, till_nl(shyata));
 			shyata = shyata_to_static(shyata);
 			return (buffer);
 		}
-		else if (check_nl == 0)
+		else if (!check_nl && !buffer)
 		{
 			
 			buffer = ft_strjoin(buffer, shyata);
+			shyata = shyata_to_static(shyata);		
 			
 		}
 	}
 	if(buffer)
 	{
-		shyata = shyata_to_static(shyata);		
 		return (buffer);
 	}
 	return (NULL);
@@ -186,15 +186,24 @@ char *get_next_line(int fd)
 int main()
 {
 	int fd = open("txt", O_RDWR);
-	char *str = get_next_line(fd);
-	char *str1 = get_next_line(fd);
-	char *str2 = get_next_line(fd);
-	char *str3 = get_next_line(fd);
-	char *str4 = get_next_line(fd);
-	printf("%s%s%s%s%s", str, str1, str2,str3,str4);
+	// char *str = get_next_line(fd);
+	// char *str1 = get_next_line(fd);
+	// char *str2 = get_next_line(fd);
+	// char *str3 = get_next_line(fd);
+	// char *str4 = get_next_line(fd);
+	// printf("%s%s%s%s%s", str, str1, str2,str3,str4);
 	//system("leaks a.out");
-	free(str);
-	free(str1);
+	// free(str);
+	// free(str1);
+	char *s;
+	int i = 0;
+	while (i < 5)
+	{
+		s = get_next_line(fd);
+		printf("%s",s);
+		i++;
+	}
+	
 	close(fd);
 	return (0);
 }

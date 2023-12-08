@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:45:30 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/08 17:34:13 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/08 17:56:11 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <limits.h>
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 1
+#define BUFFER_SIZE 30
 #endif
 char	*get_next_line(int fd);
 int		ft_strlen(char *str);
