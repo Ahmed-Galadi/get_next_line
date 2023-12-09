@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:02:05 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 15:14:00 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 15:30:57 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_bzero(void *ptr, size_t n)
 	while (i < n)
 		*(str + i++) = '\0';
 }
+
 int	has_newline(char *str, int *len)
 {
 	while (*str)

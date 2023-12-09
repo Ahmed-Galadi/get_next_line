@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 15:19:03 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 15:27:36 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int main()
 	char *str2 = get_next_line(fd);
 	char *str3 = get_next_line(fd);
 	printf("%s%s%s%s", str, str1, str2,str3);
-	// system("leaks a.out");
+	system("leaks a.out");
 	free(str);
 	free(str1);
 	free(str2);
