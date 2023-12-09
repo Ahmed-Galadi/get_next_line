@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 12:24:24 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 13:22:08 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,80 +15,77 @@
 //-------------------------------------//
 size_t	ft_strlen(const char *str)
 {
-	size_t	x;
+	size_t	i;
 
-	x = 0;
-	while (str[x])
-		x++;
-	return (x);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void *ptr, size_t n)
 {
-	char			*p;
-	unsigned int	x;
+	char	*str;
+	size_t	i;
 
-	x = 0;
-	p = (char *)s;
-	while (n > x)
-	{
-		p[x] = '\0';
-		x++;
-	}
+	str = (char *)ptr;
+	i = 0;
+	while (i < n)
+		*(str + i++) = '\0';
 }
 
-char	*ft_strdup(char *s1, int b)
+char	*ft_strdup(char *s1, int should_free)
 {
-	char	*array;
-	int		x;
+	char	*output;
+	int		i;
 	int		size;
 
-	x = 0;
+	i = 0;
 	size = ft_strlen(s1) + 1;
-	array = malloc(size);
-	if (!array)
+	output = malloc(size);
+	if (!output)
 	{
-		if (b)
+		if (should_free)
 			return (free(s1), NULL);
 		return (NULL);
 	}
-	while (s1[x])
+	while (s1[i])
 	{
-		array[x] = s1[x];
-		x++;
+		output[i] = s1[i];
+		i++;
 	}
-	array[x] = '\0';
-	if (b)
-		return (free(s1), array);
-	return (array);
+	output[i] = '\0';
+	if (should_free)
+		return (free(s1), output);
+	return (output);
 }
 
 char	*ft_strjoin(char *s1, char *s2)
 {
-	int		x;
-	int		y;
-	char	*array;
+	int		i;
+	int		j;
+	char	*output;
 
-	x = 0;
-	y = 0;
+	i = 0;
+	j = 0;
 	if (!s1 && !s2)
-		return (0);
+		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2, 0));
 	if (!s2)
 		return (ft_strdup(s1, 1));
-	array = malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (!array)
+	output = malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!output)
 		return (free(s1), NULL);
-	while (s1[x])
+	while (s1[i])
 	{
-		array[x] = s1[x];
-		x++;
+		output[i] = s1[i];
+		i++;
 	}
-	while (s2[y])
-		array[x++] = s2[y++];
-	array[x] = '\0';
-	return (free(s1), array);
+	while (s2[j])
+		output[i++] = s2[j++];
+	output[i] = '\0';
+	return (free(s1), output);
 }
 
 int	has_newline(char *str, int *len)
@@ -113,10 +110,10 @@ char	*till_nl(char *shyata, int len)
 
 	x = 0;
 	if (!shyata)
-		return (0);
+		return (NULL);
 	array = malloc(len + 1);
 	if (!array)
-		return (0);
+		return (NULL);
 	while (shyata[x])
 	{
 		if (shyata[x] == '\n')
@@ -233,11 +230,12 @@ int main()
 	char *str1 = get_next_line(fd);
 	char *str2 = get_next_line(fd);
 	char *str3 = get_next_line(fd);
-	char *str4 = get_next_line(fd);
-	printf("%s%s%s%s%s", str, str1, str2,str3,str4);
-	system("leaks a.out");
+	printf("%s%s%s%s", str, str1, str2,str3);
+	// system("leaks a.out");
 	free(str);
 	free(str1);
+	free(str2);
+	free(str3);
 	close(fd);
 	return (0);
 }
