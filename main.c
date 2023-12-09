@@ -6,196 +6,238 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/08 18:59:12 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 12:24:24 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
-#include <stdio.h>
 
-///-----------------
-int has_newline(char *str, int *len)
+//-------------------------------------//
+size_t	ft_strlen(const char *str)
 {
-	int		i;
+	size_t	x;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i])
+	x = 0;
+	while (str[x])
+		x++;
+	return (x);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	char			*p;
+	unsigned int	x;
+
+	x = 0;
+	p = (char *)s;
+	while (n > x)
 	{
-		if(str[i] == '\n')
+		p[x] = '\0';
+		x++;
+	}
+}
+
+char	*ft_strdup(char *s1, int b)
+{
+	char	*array;
+	int		x;
+	int		size;
+
+	x = 0;
+	size = ft_strlen(s1) + 1;
+	array = malloc(size);
+	if (!array)
+	{
+		if (b)
+			return (free(s1), NULL);
+		return (NULL);
+	}
+	while (s1[x])
+	{
+		array[x] = s1[x];
+		x++;
+	}
+	array[x] = '\0';
+	if (b)
+		return (free(s1), array);
+	return (array);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		x;
+	int		y;
+	char	*array;
+
+	x = 0;
+	y = 0;
+	if (!s1 && !s2)
+		return (0);
+	if (!s1)
+		return (ft_strdup(s2, 0));
+	if (!s2)
+		return (ft_strdup(s1, 1));
+	array = malloc((ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!array)
+		return (free(s1), NULL);
+	while (s1[x])
+	{
+		array[x] = s1[x];
+		x++;
+	}
+	while (s2[y])
+		array[x++] = s2[y++];
+	array[x] = '\0';
+	return (free(s1), array);
+}
+
+int	has_newline(char *str, int *len)
+{
+	while (*str)
+	{
+		if (*str == 10)
 		{
-			*len+=1;
+			*len += 1;
 			return (1);
 		}
-		i++;
-		*len+=1;
+		*len += 1;
+		str++;
 	}
 	return (0);
 }
-
-int ft_strlen(char *str)
+//-------------------------------------//
+char	*till_nl(char *shyata, int len)
 {
-	int		i;
+	char	*array;
+	int		x;
 
-	i = 0;
-	while(str && str[i])
-		i++;
-	return (i);
+	x = 0;
+	if (!shyata)
+		return (0);
+	array = malloc(len + 1);
+	if (!array)
+		return (0);
+	while (shyata[x])
+	{
+		if (shyata[x] == '\n')
+		{
+			array[x] = '\n';
+			break ;
+		}
+		else
+			array[x] = shyata[x];
+		x++;
+	}
+	array[x + 1] = '\0';
+	return (array);
 }
 
-char *ft_strjoin(char *s1, char *s2)
+void	extract_leftover(char *shyata)
 {
-	char		*joined;
-	int			i;
-	int			j;
+	int	x;
+	int	y;
 
-	if (!s1 && !s2)
-		return (NULL);
-	joined = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
-	if (!joined)
-		return (free(s1), free(s2), NULL);
-	i = 0;
-	j = 0;
-	while (s1 && s1[i])
+	x = 0;
+	y = 0;
+	if (!shyata)
+		return ;
+	while (shyata[x])
 	{
-		joined[i] = s1[i];
-		i++;
+		if (shyata[x] == '\n')
+		{
+			x++;
+			break ;
+		}
+		x++;
 	}
-	while(s2 && s2[j])
+	while (shyata[x])
 	{
-		joined[i] = s2[j];
-		j++;
-		i++;
+		shyata[y++] = shyata[x];
+		x++;
 	}
-	joined[i] = '\0';
-	return (joined);
+	ft_bzero(shyata + y, x - y);
 }
 
-char *till_nl(char *content)
+char	*extract_nextline(char *shyata, char *all, int *has_nl)
 {
-	char *output;
-	int i;
+	int	len;
 
-	i = 0;
-	if (!content)
-		return (NULL);
-	output = (char *)malloc(ft_strlen(content) + 1);
-	if (!output)
-		return (NULL);
-	while (content[i])
+	len = 0;
+	*has_nl = has_newline(shyata, &len);
+	if (*has_nl)
 	{
-		if (content[i] == '\n')
-		{
-			output[i] = content[i];
-			break;
-		}
-		output[i] = content[i];
-		i++;
+		all = till_nl(shyata, len);
+		extract_leftover(shyata);
+		return (all);
 	}
-	output[i + 1] = '\0';
-	return (output);
-}
-
-char *shyata_to_static(char *content)
-{
-	char *output;
-	int i;
-	int j;
-	i = 0;
-	j = 0;
-	if (!content)
-		return (NULL);
-	while (content[i] != '\n' && content[i])
-		i++;
-	if (!content[i])
-		return (free(content),NULL);
-	i += 1;
-	output = (char *)malloc(ft_strlen(content + i) + 1);
-	if(!output)
-		return (free(content),NULL);
-	while (content[i])
+	else if (*has_nl == 0 && len > 0)
 	{
-		output[j] = content[i];
-		i++;
-		j++;
+		all = ft_strjoin(all, shyata);
+		extract_leftover(shyata);
+		return (all);
 	}
-	output[i] = '\0';
-	return (free(content),output);
-}
-//------------------------
-char *get_next_line(int fd)
-{
-	static char *shyata;
-	char		*buffer;
-	int			check_nl;
-	int			len = 0;
-
-	if (BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
-		return (NULL);
-	if (read(fd, 0, 0) == -1 || fd < 0)
-		return (NULL);
-	buffer = NULL;
-	if(!shyata)
-	{
-		shyata = (char *)malloc(BUFFER_SIZE + 1);
-		if(!shyata)
-			return (NULL);
-	}
-	else 
-	{
-		check_nl = has_newline(shyata, &len);
-		if(check_nl)
-		{
-			buffer = till_nl(shyata);
-			shyata = shyata_to_static(shyata);
-			return (buffer);
-		}
-		else if (check_nl == 0 && len != 0)
-		{
-			buffer = till_nl(shyata);	
-			shyata = shyata_to_static(shyata);
-		}
-	}
-	while(read(fd, shyata, BUFFER_SIZE))
-	{
-		check_nl = has_newline(shyata, &len);
-		if(check_nl)
-		{
-			buffer = ft_strjoin(buffer, till_nl(shyata));
-			shyata = shyata_to_static(shyata);
-			return (buffer);
-		}
-		else if (check_nl == 0)
-			buffer = ft_strjoin(buffer, shyata);
-	}
-	if(buffer)
-		return (buffer);
 	return (NULL);
 }
-//------------------------
+
+char	*getline_and_free(char *shyata, char *all, int fd)
+{
+	int		n;
+	int		len;
+	char	*holder;
+
+	len = 0;
+	while (read(fd, shyata, BUFFER_SIZE))
+	{
+		n = has_newline(shyata, &len);
+		if (n == 0)
+		{
+			all = ft_strjoin(all, shyata);
+			extract_leftover(shyata);
+		}
+		else
+		{
+			holder = till_nl(shyata, len);
+			extract_leftover(shyata);
+			all = ft_strjoin(all, holder);
+			return (free(holder), all);
+		}
+	}
+	return (all);
+}
+
+char	*get_next_line(int fd)
+{
+	static char	shyata[BUFFER_SIZE + 1];
+	char		*all;
+	int			has_nl;
+
+	if (fd < 0 || fd > OPEN_MAX || read(fd, 0, 0) < 0
+		|| BUFFER_SIZE <= 0 || BUFFER_SIZE > INT32_MAX)
+		return (ft_bzero(shyata, BUFFER_SIZE), NULL);
+	has_nl = 0;
+	all = NULL;
+	all = extract_nextline(shyata, all, &has_nl);
+	if (has_nl && all)
+		return (all);
+	all = getline_and_free(shyata, all, fd);
+	if (all)
+		return (all);
+	return (free(all), NULL);
+}
+//-------------------------------------//
+
 int main()
 {
 	int fd = open("txt", O_RDWR);
-	// char *str = get_next_line(fd);
-	// char *str1 = get_next_line(fd);
-	// char *str2 = get_next_line(fd);
-	// char *str3 = get_next_line(fd);
-	// char *str4 = get_next_line(fd);
-	// printf("%s%s%s%s%s", str, str1, str2,str3,str4);
-	//system("leaks a.out");
-	// free(str);
-	// free(str1);
-	char *s;
-	int i = 0;
-	while (i < 5)
-	{
-		s = get_next_line(fd);
-		printf("%s",s);
-		i++;
-	}
-	
+	char *str = get_next_line(fd);
+	char *str1 = get_next_line(fd);
+	char *str2 = get_next_line(fd);
+	char *str3 = get_next_line(fd);
+	char *str4 = get_next_line(fd);
+	printf("%s%s%s%s%s", str, str1, str2,str3,str4);
+	system("leaks a.out");
+	free(str);
+	free(str1);
 	close(fd);
 	return (0);
 }
