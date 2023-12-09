@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 13:27:25 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 14:52:31 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	extract_leftover(char *shyata)
 	ft_bzero(shyata + j, i - j);
 }
 
-char	*extract_nextline(char *shyata, char *all, int *has_nl)
+char	*extract_nextline(char *shyata, char *output, int *has_nl)
 {
 	int	len;
 
@@ -164,20 +164,20 @@ char	*extract_nextline(char *shyata, char *all, int *has_nl)
 	*has_nl = has_newline(shyata, &len);
 	if (*has_nl)
 	{
-		all = till_nl(shyata, len);
+		output = till_nl(shyata, len);
 		extract_leftover(shyata);
-		return (all);
+		return (output);
 	}
 	else if (*has_nl == 0 && len > 0)
 	{
-		all = ft_strjoin(all, shyata);
+		output = ft_strjoin(output, shyata);
 		extract_leftover(shyata);
-		return (all);
+		return (output);
 	}
 	return (NULL);
 }
 
-char	*getline_and_free(char *shyata, char *all, int fd)
+char	*getline_and_free(char *shyata, char *output, int fd)
 {
 	int		n;
 	int		len;
@@ -189,38 +189,38 @@ char	*getline_and_free(char *shyata, char *all, int fd)
 		n = has_newline(shyata, &len);
 		if (n == 0)
 		{
-			all = ft_strjoin(all, shyata);
+			output = ft_strjoin(output, shyata);
 			extract_leftover(shyata);
 		}
 		else
 		{
 			holder = till_nl(shyata, len);
 			extract_leftover(shyata);
-			all = ft_strjoin(all, holder);
-			return (free(holder), all);
+			output = ft_strjoin(output, holder);
+			return (free(holder), output);
 		}
 	}
-	return (all);
+	return (output);
 }
 
 char	*get_next_line(int fd)
 {
 	static char	shyata[BUFFER_SIZE + 1];
-	char		*all;
+	char		*output;
 	int			has_nl;
 
-	if (fd < 0 || fd > OPEN_MAX || read(fd, 0, 0) < 0
-		|| BUFFER_SIZE <= 0 || BUFFER_SIZE > INT32_MAX)
+	if (fd < 0 || fd > 10240 || read(fd, 0, 0) < 0
+		|| BUFFER_SIZE <= 0 || BUFFER_SIZE > 2147483647)
 		return (ft_bzero(shyata, BUFFER_SIZE), NULL);
 	has_nl = 0;
-	all = NULL;
-	all = extract_nextline(shyata, all, &has_nl);
-	if (has_nl && all)
-		return (all);
-	all = getline_and_free(shyata, all, fd);
-	if (all)
-		return (all);
-	return (free(all), NULL);
+	output = NULL;
+	output = extract_nextline(shyata, output, &has_nl);
+	if (has_nl && output)
+		return (output);
+	output = getline_and_free(shyata, output, fd);
+	if (output)
+		return (output);
+	return (free(output), NULL);
 }
 //-------------------------------------//
 
