@@ -6,13 +6,13 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 15:14:34 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 15:19:44 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*till_nl(char *shyata, int len)
+static char	*till_nl(char *shyata, int len)
 {
 	char	*output;
 	int		i;
@@ -39,7 +39,7 @@ char	*till_nl(char *shyata, int len)
 	return (output);
 }
 
-void	extract_leftover(char *shyata)
+static void	extract_leftover(char *shyata)
 {
 	int	i;
 	int	j;
@@ -65,7 +65,7 @@ void	extract_leftover(char *shyata)
 	ft_bzero(shyata + j, i - j);
 }
 
-char	*extract_nextline(char *shyata, char *output, int *has_nl)
+static char	*extract_nextline(char *shyata, char *output, int *has_nl)
 {
 	int	len;
 
@@ -86,7 +86,7 @@ char	*extract_nextline(char *shyata, char *output, int *has_nl)
 	return (NULL);
 }
 
-char	*getline_and_free(char *shyata, char *output, int fd)
+static char	*getline_and_free(char *shyata, char *output, int fd)
 {
 	int		n;
 	int		len;
