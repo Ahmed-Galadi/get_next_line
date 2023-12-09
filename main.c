@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 13:22:08 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/09 13:27:25 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	has_newline(char *str, int *len)
 {
 	while (*str)
 	{
-		if (*str == 10)
+		if (*str == '\n')
 		{
 			*len += 1;
 			return (1);
@@ -105,54 +105,55 @@ int	has_newline(char *str, int *len)
 //-------------------------------------//
 char	*till_nl(char *shyata, int len)
 {
-	char	*array;
-	int		x;
+	char	*output;
+	int		i;
 
-	x = 0;
+	i = 0;
 	if (!shyata)
 		return (NULL);
-	array = malloc(len + 1);
-	if (!array)
+	output = malloc(len + 1);
+	if (!output)
 		return (NULL);
-	while (shyata[x])
+	while (shyata[i])
 	{
-		if (shyata[x] == '\n')
+		if (shyata[i] == '\n')
 		{
-			array[x] = '\n';
+			output[i] = '\n';
 			break ;
 		}
 		else
-			array[x] = shyata[x];
-		x++;
+			output[i] = shyata[i];
+		i++;
 	}
-	array[x + 1] = '\0';
-	return (array);
+	i += 1;
+	output[i] = '\0';
+	return (output);
 }
 
 void	extract_leftover(char *shyata)
 {
-	int	x;
-	int	y;
+	int	i;
+	int	j;
 
-	x = 0;
-	y = 0;
+	i = 0;
+	j = 0;
 	if (!shyata)
 		return ;
-	while (shyata[x])
+	while (shyata[i])
 	{
-		if (shyata[x] == '\n')
+		if (shyata[i] == '\n')
 		{
-			x++;
+			i++;
 			break ;
 		}
-		x++;
+		i++;
 	}
-	while (shyata[x])
+	while (shyata[i])
 	{
-		shyata[y++] = shyata[x];
-		x++;
+		shyata[j++] = shyata[i];
+		i++;
 	}
-	ft_bzero(shyata + y, x - y);
+	ft_bzero(shyata + j, i - j);
 }
 
 char	*extract_nextline(char *shyata, char *all, int *has_nl)
