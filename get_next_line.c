@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 15:19:44 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/10 16:43:21 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,15 +88,15 @@ static char	*extract_nextline(char *shyata, char *output, int *has_nl)
 
 static char	*getline_and_free(char *shyata, char *output, int fd)
 {
-	int		n;
+	int		has_nl;
 	int		len;
 	char	*holder;
 
 	len = 0;
 	while (read(fd, shyata, BUFFER_SIZE))
 	{
-		n = has_newline(shyata, &len);
-		if (n == 0)
+		has_nl = has_newline(shyata, &len);
+		if (has_nl == 0)
 		{
 			output = ft_strjoin(output, shyata);
 			extract_leftover(shyata);

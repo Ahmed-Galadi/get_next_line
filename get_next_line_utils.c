@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 14:02:05 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 15:30:57 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/10 16:31:40 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,29 @@ int	has_newline(char *str, int *len)
 	return (0);
 }
 
-char	*ft_strdup(char *s1, int should_free)
+char	*ft_strdup(char *s, int should_free)
 {
 	char	*output;
 	int		i;
 	int		size;
 
 	i = 0;
-	size = ft_strlen(s1) + 1;
+	size = ft_strlen(s) + 1;
 	output = malloc(size);
 	if (!output)
 	{
 		if (should_free)
-			return (free(s1), NULL);
+			return (free(s), NULL);
 		return (NULL);
 	}
-	while (s1[i])
+	while (s[i])
 	{
-		output[i] = s1[i];
+		output[i] = s[i];
 		i++;
 	}
 	output[i] = '\0';
 	if (should_free)
-		return (free(s1), output);
+		return (free(s), output);
 	return (output);
 }
 
