@@ -6,32 +6,32 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/10 16:43:21 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/11 10:45:26 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*till_nl(char *shyata, int len)
+static char	*till_nl(char *leftover, int len)
 {
 	char	*output;
 	int		i;
 
 	i = 0;
-	if (!shyata)
+	if (!leftover)
 		return (NULL);
 	output = malloc(len + 1);
 	if (!output)
 		return (NULL);
-	while (shyata[i])
+	while (leftover[i])
 	{
-		if (shyata[i] == '\n')
+		if (leftover[i] == '\n')
 		{
 			output[i] = '\n';
 			break ;
 		}
 		else
-			output[i] = shyata[i];
+			output[i] = leftover[i];
 		i++;
 	}
 	i += 1;
@@ -39,72 +39,72 @@ static char	*till_nl(char *shyata, int len)
 	return (output);
 }
 
-static void	extract_leftover(char *shyata)
+static void	extract_leftover(char *leftover)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	if (!shyata)
+	if (!leftover)
 		return ;
-	while (shyata[i])
+	while (leftover[i])
 	{
-		if (shyata[i] == '\n')
+		if (leftover[i] == '\n')
 		{
 			i++;
 			break ;
 		}
 		i++;
 	}
-	while (shyata[i])
+	while (leftover[i])
 	{
-		shyata[j++] = shyata[i];
+		leftover[j++] = leftover[i];
 		i++;
 	}
-	ft_bzero(shyata + j, i - j);
+	ft_bzero(leftover + j, i - j);
 }
 
-static char	*extract_nextline(char *shyata, char *output, int *has_nl)
+static char	*extract_nextline(char *leftover, char *output, int *has_nl)
 {
 	int	len;
 
 	len = 0;
-	*has_nl = has_newline(shyata, &len);
+	*has_nl = has_newline(leftover, &len);
 	if (*has_nl)
 	{
-		output = till_nl(shyata, len);
-		extract_leftover(shyata);
+		output = till_nl(leftover, len);
+		extract_leftover(leftover);
 		return (output);
 	}
 	else if (*has_nl == 0 && len > 0)
 	{
-		output = ft_strjoin(output, shyata);
-		extract_leftover(shyata);
+		output = ft_strjoin(output, leftover);
+		extract_leftover(leftover);
 		return (output);
 	}
 	return (NULL);
 }
 
-static char	*getline_and_free(char *shyata, char *output, int fd)
+static char	*getline_and_free(char *leftover, char *output, int fd)
 {
 	int		has_nl;
 	int		len;
 	char	*holder;
 
 	len = 0;
-	while (read(fd, shyata, BUFFER_SIZE))
+	while (read(fd, leftover, BUFFER_SIZE))
 	{
-		has_nl = has_newline(shyata, &len);
+		has_nl = has_newline(leftover, &len);
 		if (has_nl == 0)
 		{
-			output = ft_strjoin(output, shyata);
-			extract_leftover(shyata);
+			output = ft_strjoin(output, leftover);
+			extract_leftover(leftover);
 		}
 		else
 		{
-			holder = till_nl(shyata, len);
-			extract_leftover(shyata);
+			holder = till_nl(leftover, len);
+			extract_leftover(leftover);
 			output = ft_strjoin(output, holder);
 			return (free(holder), output);
 		}
@@ -114,19 +114,19 @@ static char	*getline_and_free(char *shyata, char *output, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	shyata[BUFFER_SIZE + 1];
+	static char	leftover[BUFFER_SIZE + 1];
 	char		*output;
 	int			has_nl;
 
-	if (fd < 0 || fd > 10240 || read(fd, 0, 0) < 0
+	if (fd < 0 || fd > OPEN_MAX || read(fd, 0, 0) < 0
 		|| BUFFER_SIZE <= 0 || BUFFER_SIZE > 2147483647)
-		return (ft_bzero(shyata, BUFFER_SIZE), NULL);
+		return (ft_bzero(leftover, BUFFER_SIZE), NULL);
 	has_nl = 0;
 	output = NULL;
-	output = extract_nextline(shyata, output, &has_nl);
+	output = extract_nextline(leftover, output, &has_nl);
 	if (has_nl && output)
 		return (output);
-	output = getline_and_free(shyata, output, fd);
+	output = getline_and_free(leftover, output, fd);
 	if (output)
 		return (output);
 	return (free(output), NULL);
