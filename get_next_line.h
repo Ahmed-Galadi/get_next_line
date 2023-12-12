@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:45:30 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/09 15:30:21 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/12 15:55:37 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 111
+#  define BUFFER_SIZE 5
 # endif
 
 # if BUFFER_SIZE < 0

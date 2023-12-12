@@ -6,7 +6,7 @@
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:31 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/11 11:17:20 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/12 16:28:22 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int main()
 		free(str);
 	}
 	close(fd);
+	system("leaks a.out");
 	return (0);
 }
