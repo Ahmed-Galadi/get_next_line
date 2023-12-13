@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agaladi <agaladi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/01 15:47:22 by agaladi           #+#    #+#             */
-/*   Updated: 2023/12/13 16:56:15 by agaladi          ###   ########.fr       */
+/*   Updated: 2023/12/13 17:02:58 by agaladi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static char	*till_nl(char *leftover, int len)
 {
@@ -114,19 +114,22 @@ static char	*getline_and_free(char *leftover, char *output, int fd)
 
 char	*get_next_line(int fd)
 {
-	static char	leftover[BUFFER_SIZE + 1];
+	static char	leftover[OPEN_MAX][BUFFER_SIZE + 1];
 	char		*output;
 	int			has_nl;
 
-	if (fd < 0 || fd > OPEN_MAX || read(fd, 0, 0) < 0
-		|| BUFFER_SIZE <= 0 || BUFFER_SIZE > 2147483647)
-		return (ft_bzero(leftover, BUFFER_SIZE), NULL);
+	if (fd < 0 || fd >= OPEN_MAX)
+		return (NULL);
+	if (read(fd, 0, 0) < 0
+		|| BUFFER_SIZE <= 0
+		|| BUFFER_SIZE > 2147483647)
+		return (ft_bzero(leftover[fd], BUFFER_SIZE), NULL);
 	has_nl = 0;
 	output = NULL;
-	output = extract_nextline(leftover, output, &has_nl);
+	output = extract_nextline(leftover[fd], output, &has_nl);
 	if (has_nl && output)
 		return (output);
-	output = getline_and_free(leftover, output, fd);
+	output = getline_and_free(leftover[fd], output, fd);
 	if (output)
 		return (output);
 	return (free(output), NULL);
